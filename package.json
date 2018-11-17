@@ -4,7 +4,7 @@
     "description": "A very simple log utility for nodejs",
     "main": "src/index.js",
     "scripts": {
-        "lint": "eslint --max-warnings 0 src"
+        "lint": "eslint --max-warnings 0 src",
         "test:unit": "nyc node_modules/.bin/_mocha ./tests/unit",
         "coverage": "nyc check-coverage --statement 100 --branches 100 --functions 100 --lines 100 --reporter=html",
         "test": "npm run lint && npm run test:unit && npm run coverage",
