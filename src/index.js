@@ -141,7 +141,7 @@ function log(logLevel, message, attachment) {
             zf(now.getUTCHours()),
             zf(now.getUTCMinutes()),
             zf(now.getUTCSeconds()),
-            zf(now.getUTCMilliseconds()),
+            zf(now.getUTCMilliseconds())
         );
         formattedMessage = util.format('[%s] %s %s%s', logLevel, date, settings.prefix, message);
     } else {
