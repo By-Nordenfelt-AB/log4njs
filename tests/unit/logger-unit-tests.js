@@ -53,8 +53,8 @@ describe('Index unit tests', () => {
         it('levels - fatal', (done) => {
             testLogLevel('fatal', 1, done);
         });
-        it('levels - quiet', (done) => {
-            testLogLevel('quiet', 0, done);
+        it('levels - suppress', (done) => {
+            testLogLevel('suppress', 0, done);
         });
 
         function testLogLevel(level, expectedCount, done) {
