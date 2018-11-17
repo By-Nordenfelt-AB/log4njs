@@ -3,7 +3,7 @@
 log4n is a very simple log utility for nodejs.
 
 [![Build Status](https://travis-ci.org/carlnordenfelt/log4n.svg?branch=master)](https://travis-ci.org/carlnordenfelt/log4n)
-
+[![npm version](https://badge.fury.io/js/log4n.svg)](https://badge.fury.io/js/log4n)
 ## Installation
 ```
 npm i log4n --save
