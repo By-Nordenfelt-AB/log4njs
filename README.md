@@ -1,17 +1,17 @@
-# log4n
+# log4njs
 
-log4n is a very simple log utility for nodejs.
+log4njs is a very simple log utility for nodejs.
 
-[![Build Status](https://travis-ci.org/carlnordenfelt/log4n.svg?branch=master)](https://travis-ci.org/carlnordenfelt/log4n)
-[![npm version](https://badge.fury.io/js/log4n.svg)](https://badge.fury.io/js/log4n)
+[![Build Status](https://travis-ci.org/carlnordenfelt/log4njs.svg?branch=master)](https://travis-ci.org/carlnordenfelt/log4njs)
+[![npm version](https://badge.fury.io/js/log4njs.svg)](https://badge.fury.io/js/log4njs)
 ## Installation
 ```
-npm i log4n --save
+npm i log4njs --save
 ```
 
 ## Usage
 ```
-$ const log = require('log4n');
+$ const log = require('log4njs');
 $ log.info('Hello world', { foo: 'bar' });
 > '[INFO] YYYY-MM-DDTHH:mm:ss:mmmZ Hello world' { foo: 'bar' }
 ```
@@ -19,7 +19,7 @@ $ log.info('Hello world', { foo: 'bar' });
 ## API
 
 ### Configuration
-Setting the environment variable `LOG_4N_LEVEL` will initiate the logger with the provided setting.
+Setting the environment variable `LOG_4NJS_LEVEL` will initiate the logger with the provided setting.
 If log level is not provided it is set to `info`.
 
 #### Change the log level on the fly
@@ -58,16 +58,16 @@ $ log.options( {
 It is also possible to chain the configuration when requiring the logger:
 
 ```
-$ const log = require('log4n').options({ logLevel: 'error' });
+$ const log = require('log4njs').options({ logLevel: 'error' });
 ```
 This is the same as calling:
 ```
-$ const log = require('log4n');
+$ const log = require('log4njs');
 $ log.options({ logLevel: 'error' });
 ```
 which is the same as:
 ```
-$ const log = require('log4n');
+$ const log = require('log4njs');
 $ log.setLogLevel('error);
 ```
 
@@ -81,7 +81,7 @@ $ log.getSettings();
 ### Suppress logs
 In unit tests, for example, you may want to suppress all log statements:
 ```
-$ LOG_4N_LEVEL=suppress npm test
+$ LOG_4NJS_LEVEL=suppress npm test
 ```
 
 ### Logging 

@@ -33,8 +33,8 @@ const settings = {
 };
 
 /* istanbul ignore next */
-if (process.env.LOG_4N_LEVEL && LOG_LEVEL_CONVERSION[process.env.LOG_4N_LEVEL.toLowerCase()]) {
-    settings.logLevel = LOG_LEVEL_CONVERSION[process.env.LOG_4N_LEVEL.toLowerCase()];
+if (process.env.LOG_4NJS_LEVEL && LOG_LEVEL_CONVERSION[process.env.LOG_4NJS_LEVEL.toLowerCase()]) {
+    settings.logLevel = LOG_LEVEL_CONVERSION[process.env.LOG_4NJS_LEVEL.toLowerCase()];
 }
 
 pub.trace = (message, attachment) => {
