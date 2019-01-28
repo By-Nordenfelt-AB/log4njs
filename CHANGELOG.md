@@ -11,7 +11,7 @@
     * fatal
     
 ##### Bug fixes
-With the changes each logger instance is not self contained.
+With the changes each logger instance is now self contained.
 Configuration no longer spills over to other instances of the logger.
 
 # 1.0.2

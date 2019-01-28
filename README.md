@@ -11,6 +11,9 @@ log4njs is a very simple log utility for nodejs.
 npm i log4njs --save
 ```
 
+### Migration to 2.0.0
+See CHANGELOG for breaking changes.
+
 ## Default usage
 ```
 $ const log = require('log4njs')();
