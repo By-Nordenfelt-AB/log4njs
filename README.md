@@ -4,88 +4,42 @@ log4njs is a very simple log utility for nodejs.
 
 [![Build Status](https://travis-ci.org/carlnordenfelt/log4njs.svg?branch=master)](https://travis-ci.org/carlnordenfelt/log4njs)
 [![npm version](https://badge.fury.io/js/log4njs.svg)](https://badge.fury.io/js/log4njs)
+
 ## Installation
 ```
 npm i log4njs --save
 ```
 
-## Usage
+## Default usage
 ```
-$ const log = require('log4njs');
+$ const log = require('log4njs')();
 $ log.info('Hello world', { foo: 'bar' });
-> '[INFO] YYYY-MM-DDTHH:mm:ss:mmmZ Hello world' { foo: 'bar' }
+> '[INFO] Hello world' { foo: 'bar' }
 ```
 
 ## API
 
-### Configuration
-Setting the environment variable `LOG_4NJS_LEVEL` will initiate the logger with the provided setting.
-If log level is not provided it is set to `info`.
+### Options
+* **level:** String or int. The log level of the logger instance. Defaults to `INFO (300)`.
+* **prefix:** String. An optional string that is prefixed to all log message. Default to `''`.
+* **timestamp:** Boolean. Indicate if the log messages should include the current timestamp (YYYY-MM-DDTHH:mm:ss:mmmZ). Default to `false`.
 
-#### Change the log level on the fly
-```
-$ log.setLogLevel('warn');
-$ log.info('Hello'); // suppressed
-$ log.setLogLevel('info');
-$ log.info('Hello');
-> [INFO] Hello
-```
+Setting the environment variable `LOG_LEVEL` will initiate the logger with the provided setting.
+If log level is not provided it is set to `INFO`.
 
-#### Add a prefix to all log messages
+#### Example
 ```
-$ log.setPrefix('MyPrefix::');
-$ log.info('Hello);
-> [INFO] {DateTime} MyPrefix::Hello
-```
-
-#### Hide date time
-```
-$ log.hideDateTime(true);
-$ log.info('Hello);
-> [INFO] Hello
-```
-
-#### All at once
-```
-$ log.options( {
-    logLevel: 'warn',
-    prefix: 'MyPrefix::',
-    hideDate: true
-});
-```
-
-#### Chain configuration
-It is also possible to chain the configuration when requiring the logger:
-
-```
-$ const log = require('log4njs').options({ logLevel: 'error' });
-```
-This is the same as calling:
-```
-$ const log = require('log4njs');
-$ log.options({ logLevel: 'error' });
-```
-which is the same as:
-```
-$ const log = require('log4njs');
-$ log.setLogLevel('error);
-```
-
-#### Get the current configuration
-primarily exposed for the unit tests
-```
-$ log.getSettings();
-> { logLevel: 'info', prefix: '', showDate: true }
+const log = require('log4njs')({ level: 'DEBUG', prefix: 'MyPrefix::', timstamp: true });
 ```
 
 ### Suppress logs
 In unit tests, for example, you may want to suppress all log statements:
 ```
-$ LOG_4NJS_LEVEL=suppress npm test
+$ LOG_LEVEL=suppress npm test
 ```
 
-### Logging 
-The function names, e.g: `warn` corresponds to valid log level settings.
+### Log levels
+Each log level corresponds to a valid configuration value.
 ```
 $ log.trace(message[, attachment]);
 > [TRACE] ...
@@ -100,14 +54,19 @@ $ log.warn(message[, attachment]);
 $ log.warning(message[, attachment]);
 > [WARNING] ...
 
-$ log.err(message[, attachment]); // Shorthand for error
 $ log.error(message[, attachment]);
 > [ERROR] ...
 
-$ log.crit(message[, attachment]); // Shorthand for critical
 $ log.critical(message[, attachment]);
 > [CRITICAL] ...
+```
 
-$ log.fatal(message[, attachment]);
-> [FATAL] ...
+#### Shorthand functions
+**Note:** The shorthand names are not valid configuration values.
+```
+$ log.warn(message[, attachment]); // Shorthand for warning
+
+$ log.err(message[, attachment]); // Shorthand for error
+
+$ log.crit(message[, attachment]); // Shorthand for critical
 ```

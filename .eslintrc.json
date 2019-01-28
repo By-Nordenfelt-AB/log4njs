@@ -1,7 +1,7 @@
 {
     "extends": "eslint:recommended",
     "env": {
-        "node": true,
+        "node": true
     },
     "parserOptions": {
         "ecmaVersion": 8,
@@ -11,6 +11,8 @@
         }
     },
     "globals": {
+        "require": true,
+        "process": true,
         "it": true,
         "describe": true,
         "after": true,

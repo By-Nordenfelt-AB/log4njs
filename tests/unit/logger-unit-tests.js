@@ -4,18 +4,16 @@ const util   = require('util');
 
 /* eslint-disable no-console */
 describe('Index unit tests', () => {
-    let log;
+    let logger;
     let sandbox;
 
     before(() => {
-        log = require('../../src/index');
-
         sandbox = sinon.createSandbox();
+        logger  = require('../../src/index');
     });
 
     beforeEach(() => {
         sandbox.stub(console, 'log');
-        log.options({ logLevel: 'info', prefix: '', hideDate: false });
     });
 
     afterEach(() => {
@@ -24,41 +22,29 @@ describe('Index unit tests', () => {
 
     describe('logger', () => {
         it('levels - trace', (done) => {
-            testLogLevel('trace', 10, done);
+            testLogLevel('trace', 9, done);
         });
         it('levels - debug', (done) => {
-            testLogLevel('debug', 9, done);
+            testLogLevel('debug', 8, done);
         });
         it('levels - info', (done) => {
-            testLogLevel('info', 8, done);
-        });
-        it('levels - warn', (done) => {
-            testLogLevel('warn', 7, done);
+            testLogLevel('info', 7, done);
         });
         it('levels - warning', (done) => {
-            testLogLevel('warning', 7, done);
-        });
-        it('levels - err', (done) => {
-            testLogLevel('err', 5, done);
+            testLogLevel('warning', 6, done);
         });
         it('levels - error', (done) => {
-            testLogLevel('error', 5, done);
-        });
-        it('levels - crit', (done) => {
-            testLogLevel('crit', 3, done);
+            testLogLevel('error', 4, done);
         });
         it('levels - critical', (done) => {
-            testLogLevel('critical', 3, done);
-        });
-        it('levels - fatal', (done) => {
-            testLogLevel('fatal', 1, done);
+            testLogLevel('critical', 2, done);
         });
         it('levels - suppress', (done) => {
             testLogLevel('suppress', 0, done);
         });
 
         function testLogLevel(level, expectedCount, done) {
-            log.setLogLevel(level);
+            const log = logger({ level: level });
             log.trace('trace');
             log.debug('debug');
             log.info('info');
@@ -68,12 +54,12 @@ describe('Index unit tests', () => {
             log.error('error');
             log.crit('crit');
             log.critical('critical');
-            log.fatal('fatal');
             expect(console.log.callCount).to.equal(expectedCount);
             done();
         }
 
         it('with attachment', (done) => {
+            const log        = logger();
             const attachment = { foo: 'bar' };
             log.info('test', attachment);
             expect(console.log.callCount).to.equal(1);
@@ -81,47 +67,36 @@ describe('Index unit tests', () => {
             done();
         });
 
-        it('set options', (done) => {
-            let settings = log.getSettings();
-            expect(settings.logLevel).to.equal(300);
-            expect(settings.prefix).to.equal('');
-            expect(settings.hideDate).to.equal(false);
-
-            log.options({ logLevel: 'warn', prefix: 'Prefix::', hideDate: true });
-            settings = log.getSettings();
-            expect(settings.logLevel).to.equal(400);
-            expect(settings.prefix).to.equal('Prefix::');
-            expect(settings.hideDate).to.equal(true);
-
-            // Should not change anything
-            log.options();
-            settings = log.getSettings();
-            expect(settings.logLevel).to.equal(400);
-            expect(settings.prefix).to.equal('Prefix::');
-            expect(settings.hideDate).to.equal(true);
-
-            // Should not change if level is incorrect
-            log.options({ logLevel: 'incorrect' });
-            settings = log.getSettings();
-            expect(settings.logLevel).to.equal(400);
-
-            log.error('message');
-            expect(console.log.firstCall.args[0]).to.equal('[ERROR] Prefix::message');
+        it('with timestamp', (done) => {
+            const log = logger({ timestamp: true });
+            log.info('test');
+            expect(console.log.callCount).to.equal(1);
+            expect(console.log.firstCall.args[0]).to.match(/[[INFO]] [-0-9]{10}T[:0-9]{8}.[0-9]{3}Z test/);
             done();
         });
 
-        it('set prefix', (done) => {
-            log.setPrefix('Prefix::');
-            log.error('message');
-            expect(console.log.firstCall.args[0]).to.match(
-                /\[ERROR\] [0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{1,3}Z Prefix::message/
-            );
+        it('with prefix', (done) => {
+            const log = logger({ prefix: 'MyPrefix' });
+            log.info('test');
+            expect(console.log.callCount).to.equal(1);
+            expect(console.log.firstCall.args[0]).to.contain('MyPrefix');
             done();
         });
 
-        it('set invalid log level should not change level', (done) => {
-            log.setLogLevel('invalid');
-            expect(log.getSettings().logLevel).to.equal(300);
+        it('with invalid log level should default to info', (done) => {
+            const log = logger({ level: 'invalid' });
+            log.debug('test');
+            log.info('test');
+            expect(console.log.callCount).to.equal(1);
+            done();
+        });
+
+        it('with log level via env', (done) => {
+            process.env.LOG_LEVEL = 'ERROR';
+            const log             = logger();
+            log.info('test');
+            log.err('test');
+            expect(console.log.callCount).to.equal(1);
             done();
         });
     });
