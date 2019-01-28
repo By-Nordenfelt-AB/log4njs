@@ -4,6 +4,7 @@ log4njs is a very simple log utility for nodejs.
 
 [![Build Status](https://travis-ci.org/carlnordenfelt/log4njs.svg?branch=master)](https://travis-ci.org/carlnordenfelt/log4njs)
 [![npm version](https://badge.fury.io/js/log4njs.svg)](https://badge.fury.io/js/log4njs)
+[![Coverage Status](https://coveralls.io/repos/github/carlnordenfelt/log4njs/badge.svg?branch=master)](https://coveralls.io/github/carlnordenfelt/log4njs?branch=master)
 
 ## Installation
 ```
