@@ -71,7 +71,7 @@ describe('Index unit tests', () => {
             const log = logger({ timestamp: true });
             log.info('test');
             expect(console.log.callCount).to.equal(1);
-            expect(console.log.firstCall.args[0]).to.match(/[[INFO]] [-0-9]{10}T[:0-9]{8}.[0-9]{3}Z test/);
+            expect(console.log.firstCall.args[0]).to.match(/\[INFO\] [-0-9]{10}T[:0-9]{8}.[0-9]{3}Z test/);
             done();
         });
 
