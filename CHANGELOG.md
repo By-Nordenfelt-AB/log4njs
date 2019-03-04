@@ -1,4 +1,7 @@
-#2.1.0
+# 2.2.0
+* Added ì`isDebugEnabled()
+
+# 2.1.0
 * Introduced AUDIT & AUDIT_ALERT log levels.
 
 # 2.0.0

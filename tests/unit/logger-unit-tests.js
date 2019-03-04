@@ -102,5 +102,18 @@ describe('Index unit tests', () => {
             expect(console.log.callCount).to.equal(1);
             done();
         });
+
+        it('is debug enabled', (done) => {
+            process.env.LOG_LEVEL = 'DEBUG';
+            const log             = logger();
+            expect(log.isDebugEnabled()).to.equal(true);
+            done();
+        });
+        it('is debug disabled', (done) => {
+            process.env.LOG_LEVEL = 'INFO';
+            const log             = logger();
+            expect(log.isDebugEnabled()).to.equal(false);
+            done();
+        });
     });
 });

@@ -59,6 +59,9 @@ module.exports = (options) => {
         auditAlert: (message, attachment) => {
             log('AUDIT_ALERT', message, attachment);
         },
+        isDebugEnabled: () => {
+            return settings.level <= logLevels.DEBUG;
+        },
         settings: settings
     };
 
