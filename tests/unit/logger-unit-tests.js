@@ -52,9 +52,9 @@ describe('Index unit tests', () => {
 
         function testLogLevel(level, expectedCount, done) {
             const log = logger({ level: level });
-            Object.values(log).forEach(value => {
-                if (typeof value === 'function') {
-                    value('logging');
+            Object.keys(log).forEach(key => {
+                if (typeof log[key] === 'function') {
+                    log[key]('logging');
                 }
             });
             expect(console.log.callCount).to.equal(expectedCount);
