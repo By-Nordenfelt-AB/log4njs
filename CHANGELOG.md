@@ -1,3 +1,6 @@
+#2.1.0
+* Introduced AUDIT & AUDIT_ALERT log levels.
+
 # 2.0.0
 ##### Breaking changes
 * New initialization:

@@ -21,39 +21,42 @@ describe('Index unit tests', () => {
     });
 
     describe('logger', () => {
+        let expectedCount = 11;
         it('levels - trace', (done) => {
-            testLogLevel('trace', 9, done);
+            testLogLevel('trace', expectedCount, done);
         });
         it('levels - debug', (done) => {
-            testLogLevel('debug', 8, done);
+            testLogLevel('debug', --expectedCount, done);
         });
         it('levels - info', (done) => {
-            testLogLevel('info', 7, done);
+            testLogLevel('info', --expectedCount, done);
         });
         it('levels - warning', (done) => {
-            testLogLevel('warning', 6, done);
+            testLogLevel('warning', --expectedCount, done);
         });
         it('levels - error', (done) => {
-            testLogLevel('error', 4, done);
+            testLogLevel('error', expectedCount = expectedCount - 2, done);
         });
         it('levels - critical', (done) => {
-            testLogLevel('critical', 2, done);
+            testLogLevel('critical', expectedCount = expectedCount - 2, done);
+        });
+        it('levels - audit', (done) => {
+            testLogLevel('audit', expectedCount = expectedCount - 2, done);
+        });
+        it('levels - audit_alert', (done) => {
+            testLogLevel('audit_alert', expectedCount, done);
         });
         it('levels - suppress', (done) => {
-            testLogLevel('suppress', 0, done);
+            testLogLevel('suppress', expectedCount = expectedCount - 2, done);
         });
 
         function testLogLevel(level, expectedCount, done) {
             const log = logger({ level: level });
-            log.trace('trace');
-            log.debug('debug');
-            log.info('info');
-            log.warn('warn');
-            log.warning('warning');
-            log.err('err');
-            log.error('error');
-            log.crit('crit');
-            log.critical('critical');
+            Object.values(log).forEach(value => {
+                if (typeof value === 'function') {
+                    value('logging');
+                }
+            });
             expect(console.log.callCount).to.equal(expectedCount);
             done();
         }
@@ -71,7 +74,7 @@ describe('Index unit tests', () => {
             const log = logger({ timestamp: true });
             log.info('test');
             expect(console.log.callCount).to.equal(1);
-            expect(console.log.firstCall.args[0]).to.match(/\[INFO\] [-0-9]{10}T[:0-9]{8}.[0-9]{3}Z test/);
+            expect(console.log.firstCall.args[0]).to.match(/\[INFO\] [-0-9]{10}T[:0-9]{8}.[0-9]{1,3}Z test/);
             done();
         });
 

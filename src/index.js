@@ -7,6 +7,8 @@ const logLevels = {
     WARNING: 400,
     ERROR: 500,
     CRITICAL: 600,
+    AUDIT: 999,
+    AUDIT_ALERT: 999,
     SUPPRESS: 1000
 };
 
@@ -50,6 +52,12 @@ module.exports = (options) => {
         },
         critical: (message, attachment) => {
             log('CRITICAL', message, attachment);
+        },
+        audit: (message, attachment) => {
+            log('AUDIT', message, attachment);
+        },
+        auditAlert: (message, attachment) => {
+            log('AUDIT_ALERT', message, attachment);
         },
         settings: settings
     };

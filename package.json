@@ -1,11 +1,11 @@
 {
     "name": "log4njs",
-    "version": "2.0.1",
+    "version": "2.1.0",
     "description": "A very simple log utility for nodejs",
     "main": "src/index.js",
     "scripts": {
         "lint": "eslint --max-warnings 0 src",
-        "test:unit": "nyc node_modules/.bin/_mocha ./tests/unit && npm run report",
+        "test:unit": "nyc mocha ./tests/unit && npm run report",
         "coverage": "nyc check-coverage --statement 100 --branches 100 --functions 100 --lines 100",
         "test": "npm run lint && npm run test:unit && npm run coverage",
         "prepublishOnly": "npm test && npm prune --production",
@@ -38,7 +38,7 @@
         "eslint-plugin-import": "2.14.0",
         "mocha": "^5.2.0",
         "mockery": "^2.1.0",
-        "nyc": "^13.1.0",
+        "nyc": "^13.2.0",
         "sinon": "^7.1.1",
         "sinon-chai": "^3.2.0"
     }
