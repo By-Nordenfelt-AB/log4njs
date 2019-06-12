@@ -2,7 +2,7 @@
 * Updated dev dependencies
 
 # 2.2.0
-* Added ì`isDebugEnabled()
+* Added `isDebugEnabled()`
 
 # 2.1.0
 * Introduced AUDIT & AUDIT_ALERT log levels.
