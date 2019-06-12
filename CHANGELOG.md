@@ -1,3 +1,6 @@
+# 2.2.1
+* Updated dev dependencies
+
 # 2.2.0
 * Added ì`isDebugEnabled()
 
