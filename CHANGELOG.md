@@ -1,3 +1,6 @@
+# 2.2.3
+* Added zerofill to milliseconds
+
 # 2.2.2
 * Updated dev dependencies
 

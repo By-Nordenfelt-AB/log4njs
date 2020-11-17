@@ -9,14 +9,14 @@ const logLevels = {
     CRITICAL: 600,
     AUDIT: 999,
     AUDIT_ALERT: 999,
-    SUPPRESS: 1000
+    SUPPRESS: 1000,
 };
 
 module.exports = (options) => {
     const defaultSettings = {
         level: process.env.LOG_LEVEL || logLevels.INFO,
         prefix: '',
-        timestamp: false
+        timestamp: false,
     };
 
     const settings = Object.assign(defaultSettings, options || {});
@@ -62,7 +62,7 @@ module.exports = (options) => {
         isDebugEnabled: () => {
             return settings.level <= logLevels.DEBUG;
         },
-        settings: settings
+        settings: settings,
     };
 
     /* eslint-disable no-console */
@@ -71,8 +71,8 @@ module.exports = (options) => {
             let formattedMessage;
 
             if (settings.timestamp) {
-                const now        = new Date();
-                const date       = util.format(
+                const now = new Date();
+                const date = util.format(
                     '%s-%s-%sT%s:%s:%s.%sZ',
                     now.getUTCFullYear(),
                     zf(now.getUTCMonth() + 1),
@@ -80,7 +80,7 @@ module.exports = (options) => {
                     zf(now.getUTCHours()),
                     zf(now.getUTCMinutes()),
                     zf(now.getUTCSeconds()),
-                    zf(now.getUTCMilliseconds())
+                    zf(now.getUTCMilliseconds(), 100),
                 );
                 formattedMessage = util.format('[%s] %s %s%s', logLevel, date, settings.prefix, message);
             } else {
@@ -95,8 +95,8 @@ module.exports = (options) => {
         }
     }
 
-    function zf(value) {
+    function zf(value, cutoff = 10) {
         /* istanbul ignore next */
-        return value < 10 ? '0' + value : value;
+        return value < cutoff ? '0' + value : value;
     }
 };

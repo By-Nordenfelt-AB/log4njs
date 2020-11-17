@@ -1,6 +1,6 @@
 {
     "name": "log4njs",
-    "version": "2.2.2",
+    "version": "2.2.3",
     "description": "A very simple log utility for nodejs",
     "main": "src/index.js",
     "scripts": {
