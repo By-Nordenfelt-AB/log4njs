@@ -1,3 +1,15 @@
+# 3.0.0
+* Added types
+## Breaking changes
+The anonymous function call when instantiating the logger has been replaced by `getLogger`:
+```javascript
+const log = require('log4njs').getLogger({ ... });
+```
+The following log methods have been removed:
+* `warn`, `err`, `crit`. 
+  * Use `warning`, `error` & `critical` instead.
+ 
+
 # 2.2.3
 * Added zerofill to milliseconds
 

@@ -14,10 +14,11 @@ npm i log4njs --save
 ### Migration to 2.0.0
 See CHANGELOG for breaking changes.
 
-## Default usage
+## Default usage, without options
 ```
-$ const log = require('log4njs')();
-$ log.info('Hello world', { foo: 'bar' });
+import {getLogger} from 'log4njs';
+const log = getLogger();
+log.info('Hello world', { foo: 'bar' });
 > '[INFO] Hello world' { foo: 'bar' }
 ```
 
@@ -30,11 +31,6 @@ $ log.info('Hello world', { foo: 'bar' });
 
 Setting the environment variable `LOG_LEVEL` will initiate the logger with the provided setting.
 If log level is not provided it is set to `INFO`.
-
-#### Example
-```
-const log = require('log4njs')({ level: 'DEBUG', prefix: 'MyPrefix::', timstamp: true });
-```
 
 ### Suppress logs
 In unit tests, for example, you may want to suppress all log statements:
@@ -61,7 +57,6 @@ $ log.debug(message[, attachment]);
 $ log.info(message[, attachment]);
 > [INFO] ...
 
-$ log.warn(message[, attachment]);
 $ log.warning(message[, attachment]);
 > [WARNING] ...
 
@@ -76,14 +71,4 @@ $ log.audit(message[, attachment]);
 
 $ log.auditAlert(message[, attachment]);
 > [AUDIT_ALERT] ...
-```
-
-#### Shorthand functions
-**Note:** The shorthand names are not valid configuration values.
-```
-$ log.warn(message[, attachment]); // Shorthand for warning
-
-$ log.err(message[, attachment]); // Shorthand for error
-
-$ log.crit(message[, attachment]); // Shorthand for critical
 ```

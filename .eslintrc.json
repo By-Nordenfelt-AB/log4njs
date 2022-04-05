@@ -1,9 +1,15 @@
 {
-    "extends": "eslint:recommended",
+    "root": true,
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended"
+    ],
     "env": {
         "node": true
     },
+    "parser": "@typescript-eslint/parser",
     "parserOptions": {
+        "project": ["./tsconfig.json"],
         "ecmaVersion": 8,
         "sourceType": "module",
         "ecmaFeatures": {
@@ -22,7 +28,8 @@
     },
     "plugins": [
         "import",
-        "filenames"
+        "filenames",
+        "@typescript-eslint"
     ],
     "rules": {
         "quotes": [1, "single", "avoid-escape"],
@@ -53,8 +60,10 @@
         "valid-jsdoc": 0, // Turn off checking of jsdoc.
         "max-params": [1, 4],
         "strict": [2, "global"],  // Enforce 'use strict'
-
         "filenames/match-regex": [2, "^[-a-z0-9.]+$", true],
-        "import/no-extraneous-dependencies": [2, { "devDependencies": true, "optionalDependencies": false }]
+        "import/no-extraneous-dependencies": [2, { "devDependencies": true, "optionalDependencies": false }],
+        "@typescript-eslint/ban-ts-comment": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-inferrable-types": "off"
     }
 }
