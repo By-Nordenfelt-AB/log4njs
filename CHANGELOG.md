@@ -1,3 +1,15 @@
+# 3.0.0
+* Typescript compatible
+* New initialization:
+```typescript
+import { getLogger } from 'log4njs';
+const log = getLogger({ });
+```
+* The following shorthand methods are no longer supported:
+  * warn -- Use `warning` instead
+  * err -- Use `error` instead
+  * crit -- Use `critical` instead
+
 # 2.2.3
 * Added zerofill to milliseconds
 
