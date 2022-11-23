@@ -1,6 +1,6 @@
 {
     "name": "log4njs",
-    "version": "3.0.0",
+    "version": "3.0.1",
     "description": "A very simple log utility for nodejs & typescript",
     "main": ".dist/index.js",
     "types": ".dist/index.d.ts",
@@ -11,7 +11,7 @@
         "lint": "tslint -p tsconfig.json",
         "test:unit": "jest --config jest.config.json",
         "test": "npm run lint && npm run test:unit",
-        "prepublishOnly": "npm test && npm prune --production"
+        "prepublishOnly": "npm test && npm prune --production && npm run build"
     },
     "author": "Carl Nordenfelt <carl@bynordenfelt.com>",
     "license": "MIT",
