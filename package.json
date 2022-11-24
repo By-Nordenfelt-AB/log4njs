@@ -1,6 +1,6 @@
 {
     "name": "log4njs",
-    "version": "3.0.1",
+    "version": "3.0.2",
     "description": "A very simple log utility for nodejs & typescript",
     "main": ".dist/index.js",
     "types": ".dist/index.d.ts",

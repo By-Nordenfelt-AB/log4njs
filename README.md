@@ -1,6 +1,6 @@
 # log4njs
 
-log4njs is a very simple log utility for nodejs.
+log4njs is a very simple log utility for nodejs & typescript.
 
 [![npm version](https://badge.fury.io/js/log4njs.svg)](https://badge.fury.io/js/log4njs)
 ![Build Status](https://github.com/By-Nordenfelt-AB/log4njs/actions/workflows/main.yml/badge.svg)
