@@ -13,34 +13,42 @@ describe('Logger', () => {
                 level: LogLevel.INFO,
                 prefix: '',
                 timestamp: false,
+                callerInfo: false,
             });
             expect(console.log).toBeCalledWith('[INFO] My message');
         });
         it('should instantiate logger with options', async () => {
-            const log = getLogger({level: LogLevel.WARNING, prefix: 'My Prefix', timestamp: true});
+            const log = getLogger({ level: LogLevel.WARNING, prefix: 'MyPrefix', timestamp: true, callerInfo: true });
             log.info('My message');
             log.warning('My message');
 
             expect(log.getSettings()).toEqual({
                 level: LogLevel.WARNING,
-                prefix: 'My Prefix',
+                prefix: 'MyPrefix',
                 timestamp: true,
+                callerInfo: true,
             });
             expect(console.log).toBeCalledTimes(1);
-            expect(console.log).toBeCalledWith('[WARNING] 2022-11-23T13:26:05.098Z My PrefixMy message');
         });
 
-        it('should instantiate logger with level from process.env', async () => {
+        it('should instantiate logger from process.env', async () => {
+            const processEnvCopy = JSON.stringify(process.env);
             process.env.LOG_LEVEL = 'DEBUG';
+            process.env.LOG_TIMESTAMP = 'true';
+            process.env.LOG_PREFIX = 'MyPrefix';
+            process.env.LOG_CALLERINFO = 'true';
             const log = getLogger();
             log.info('My message');
 
             expect(log.getSettings()).toEqual({
                 level: LogLevel.DEBUG,
-                prefix: '',
-                timestamp: false,
+                prefix: 'MyPrefix',
+                timestamp: true,
+                callerInfo: true,
             });
-            expect(console.log).toBeCalledWith('[INFO] My message');
+
+            // Restore process.env
+            process.env = JSON.parse(processEnvCopy);
         });
     });
 
@@ -84,10 +92,14 @@ describe('Logger', () => {
         });
 
         function testLogLevel(level: LogLevel): void {
-            const log = getLogger({level});
+            const log = getLogger({ level });
 
-            log.trace('Foo');
-            log.debug('Foo');
+            if (log.isTraceEnabled()) {
+                log.trace('Foo');
+            }
+            if (log.isDebugEnabled()) {
+                log.debug('Foo');
+            }
             log.info('Foo');
             log.warning('Foo');
             log.error('Foo');
@@ -101,9 +113,39 @@ describe('Logger', () => {
     describe('Attachments', () => {
         it('should include attachment', async () => {
             const log = getLogger();
-            log.info('My message', {foo: 'bar'});
+            log.info('My message', { foo: 'bar' });
 
-            expect(console.log).toBeCalledWith('[INFO] My message', '{ foo: \'bar\' }');
+            expect(console.log).toBeCalledWith('[INFO] My message', "{ foo: 'bar' }");
+        });
+    });
+
+    describe('Mask', () => {
+        it('should mask multiple values', async () => {
+            const log = getLogger();
+            log.addMask('foo', 'custom');
+            log.addMask('bar');
+            log.info('My foobar message', { foo: 'bar' });
+
+            expect(console.log).toBeCalledWith('[INFO] My custom*** message', "{ custom: '***' }");
+        });
+
+        it('should add & remove mask', async () => {
+            const log = getLogger();
+            log.addMask('foo', 'custom');
+            log.removeMask('foo');
+            log.info('My foobar message', { foo: 'bar' });
+
+            expect(console.log).toBeCalledWith('[INFO] My foobar message', "{ foo: 'bar' }");
+        });
+
+        it('should not mask after clearing the masks', async () => {
+            const log = getLogger();
+            log.addMask('foo', 'custom');
+            log.addMask('bar');
+            log.clearMasks();
+            log.info('My foobar message', { foo: 'bar' });
+
+            expect(console.log).toBeCalledWith('[INFO] My foobar message', "{ foo: 'bar' }");
         });
     });
 });

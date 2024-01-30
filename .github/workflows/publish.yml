@@ -1,13 +1,11 @@
-name: Build & Deploy
+name: Publish
 on:
-    push:
-        branches: [main]
+    workflow_dispatch:
 
 jobs:
-    build-and-deploy:
+    publish:
         runs-on: ubuntu-latest
         steps:
-            # Setup environment
             -   uses: actions/checkout@v4
             -   uses: actions/setup-node@v4
                 with:
@@ -16,3 +14,7 @@ jobs:
                 run: npm ci
             -   name: Run lint & test
                 run: npm test
+            -   name: Publish
+                run: npm publish
+                env:
+                    NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

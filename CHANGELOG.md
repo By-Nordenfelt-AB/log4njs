@@ -1,3 +1,11 @@
+# 3.1.0
+See readme for more details
+* Added masking possibilities
+* Added `callerInfo` configuration
+* Added `isDebugEnabled` & `isTraceEnabled` methods
+* Added benchmarks
+* Added more config options via `process.env`
+
 # 3.0.0
 * Typescript compatible
 * New initialization:
