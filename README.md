@@ -102,24 +102,25 @@ To ensure that certain values are not printed to the log you can mask data.<br>
 **Note:** It is important to clear the masks after you are done, or it may cause a memory leak over time.<br>
 **Note:** Masks are case-sensitive. The exact string provided will be masked, nothing else.
 ```
-let password = 'abc123';
+let data = { id: 12, secret: 'abc123' };
 try {
-    log.addMask(password, 'placeholder');
-    log.info('My masked log', { password });
-    > '[INFO] Hello world' { password: '***' }
+    log.addMask(data.secret);
+    log.info('My masked log', data);
+    > '[INFO] My masked log' { id: 12, secret: '***' }
 } finally {
     log.clearMasks();
-    log.info('My masked log', { password });
-    > '[INFO] Hello world' { password: 'abc123' }
+    log.info('My masked log', data);
+    > '[INFO] My masked log' { id: 12, secret: 'abc123' }
 }
 ```
 
 You can optionally set a custom placeholder
 ```
-let password = 'abc123';
-log.addMask(password, 'placeholder');
-log.info('My masked log', { password }
-> '[INFO] Hello world' { password: 'placeholder' }
+let data = { id: 12, secret: 'abc123' };
+log.addMask(data.secret, 'placeholder');
+log.info('My masked log', data);
+> '[INFO] My masked log' { id: 12, secret: 'placeholder' }
+
 ```
 
 
