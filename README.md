@@ -26,9 +26,10 @@ $ log.info('Hello world', { foo: 'bar' });
 
 ### Settings
 * **level:** enum `LogLevel`. The log level of the logger instance. Defaults to `INFO (300)`.
-* **prefix:** String. An optional string that is prefixed to all log messages. Note that no spacing is not automatically added and must be included in the prefix string if required. Default to `''`.
+* **prefix:** String. An optional string that is prefixed to all log messages. Note that no spacing is not automatically added and must be included in the prefix string if required. Defaults to `''`.
 * **timestamp:** Boolean. Indicate if the log messages should include the current timestamp (YYYY-MM-DDTHH:mm:ss:mmmZ). Defaults to `false`.
-* **callerInfo:** Boolean. Best effort attempt at including caller filename & line number. Default to `false`.
+* **callerInfo:** Boolean. Best effort attempt to include caller filename & line number in the log entries. Defaults to `false`.
+  * Note: callerInfo has a fairly big performance impact and is not suitable for regular production use.
 
 **Example**
 ```
@@ -125,7 +126,7 @@ log.info('My masked log', data);
 
 
 ### Benchmarks
-There is a couple of sample scripts provided to highlight the performance impact of various configurations.<br>
+There are a couple of sample scripts provided to highlight the performance impact of various configurations.<br>
 All benchmarks run 10000 iterations.
 
 Before running the benchmarks, run:
@@ -137,13 +138,13 @@ npm i
 #### Default usage
 Default logging with or without a simple attachment:
 
-Sample, with attachment enabled:
+Sample, with attachment:
 ```
 node default-use.js true
 > default benchmark: true: 141.929ms
 ```
 
-Sample, with check disabled:
+Sample, without attachment:
 ```
 node default-use.js
 > default benchmark: false: 133.035ms
@@ -168,7 +169,7 @@ node check-debug.js
 
 #### callerInfo
 The callerInfo setting will attempt to extract the filename & line number of the caller.<br>
-This provides useful information when it is difficult to find a specific logger call but takes a slight performance hit.
+This provides useful information when it is difficult to pinpoint the source of a specific logger call but takes a fairly big performance hit.
 
 Sample, with callerInfo enabled:
 ```
