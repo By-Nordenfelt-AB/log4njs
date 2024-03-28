@@ -17,6 +17,7 @@ type LoggerOptions = {
     prefix: string;
     timestamp: boolean;
     callerInfo: boolean;
+    hideLogLevel: boolean;
 };
 
 /**
@@ -29,6 +30,7 @@ export function getLogger(options?: Partial<LoggerOptions>) {
         prefix: process.env.LOG_PREFIX ?? '',
         timestamp: process.env.LOG_TIMESTAMP === 'true' || false,
         callerInfo: process.env.LOG_CALLERINFO === 'true' || false,
+        hideLogLevel: process.env.LOG_HIDE_LOG_LEVEL === 'true' || false,
     };
 
     const settings: LoggerOptions = Object.assign(defaultSettings, options || {});
@@ -86,17 +88,28 @@ export function getLogger(options?: Partial<LoggerOptions>) {
 
     function _log(logLevel: LogLevel, message: string, attachment?: Record<string, any>): void {
         if (settings.level <= logLevel) {
-            let formattedMessage;
-            if (settings.timestamp) {
-                formattedMessage = format('[%s] %s %s%s', LogLevel[logLevel], new Date().toISOString(), settings.prefix, message);
-            } else {
-                formattedMessage = format('[%s] %s%s', LogLevel[logLevel], settings.prefix, message);
+            const logVariables: any = [];
+            let logFormat = '';
+            if (!settings.hideLogLevel) {
+                logFormat = '[%s] '
+                logVariables.push(LogLevel[logLevel]);
             }
+            if (settings.timestamp) {
+                logFormat += '%s '
+                logVariables.push(new Date().toISOString());
+            }
+            if (settings.prefix) {
+                logFormat += '%s'
+                logVariables.push(settings.prefix);
+            }
+            logFormat += '%s';
+            logVariables.push(message);
 
+
+            let formattedMessage = format(logFormat, ...logVariables);
             if (settings.callerInfo) {
                 attachment = _attachCallerInfo(attachment);
             }
-
             if (hasMasks) {
                 formattedMessage = _mask(formattedMessage);
             }

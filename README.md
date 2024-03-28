@@ -29,6 +29,7 @@ $ log.info('Hello world', { foo: 'bar' });
 * **prefix:** String. An optional string that is prefixed to all log messages. Note that no spacing is not automatically added and must be included in the prefix string if required. Default to `''`.
 * **timestamp:** Boolean. Indicate if the log messages should include the current timestamp (YYYY-MM-DDTHH:mm:ss:mmmZ). Defaults to `false`.
 * **callerInfo:** Boolean. Best effort attempt at including caller filename & line number. Default to `false`.
+* **hideLogLevel:** Boolean. Will not output the log level as part of the message if set to true. Default to `false`.
 
 **Example**
 ```
@@ -41,6 +42,7 @@ const log = getLogger({ level: LogLevel.DEBUG, prefix: 'MyPrefix::', timstamp: t
 * **prefix**: `LOG_PREFIX=MyPrefix::`
 * **timestamp**: `LOG_TIMESTAMP=true`
 * **callerInfo**: `LOG_CALLERINFO=true`
+* **hideLogLevel**: `LOG_HIDE_LOG_LEVEL=true`
 
 #### Modify settings runtime
 Settings can be modified after the logger has been created:
@@ -121,7 +123,6 @@ log.addMask(password, 'placeholder');
 log.info('My masked log', { password }
 > '[INFO] Hello world' { password: 'placeholder' }
 ```
-
 
 ### Benchmarks
 There is a couple of sample scripts provided to highlight the performance impact of various configurations.<br>

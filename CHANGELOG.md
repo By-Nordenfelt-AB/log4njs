@@ -1,3 +1,6 @@
+# 3.2.0
+* Added `hideLogLevel` configuration
+ 
 # 3.1.0
 See readme for more details
 * Added masking possibilities

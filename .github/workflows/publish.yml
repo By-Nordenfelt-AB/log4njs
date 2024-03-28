@@ -1,3 +1,5 @@
+# Manually run to test, build & publish to npm
+
 name: Publish
 on:
     workflow_dispatch:

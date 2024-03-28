@@ -1,6 +1,6 @@
 {
     "name": "log4njs-benchmarks",
     "dependencies": {
-        "log4njs": "3.1.0"
+        "log4njs": "3.2.0"
     }
 }

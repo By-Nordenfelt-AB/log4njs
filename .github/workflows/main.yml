@@ -1,3 +1,6 @@
+# Runs test and builds on push to main.
+# Will not publish the package
+
 name: Test & Build
 on:
     push:

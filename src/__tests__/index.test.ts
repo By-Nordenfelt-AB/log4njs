@@ -14,11 +14,12 @@ describe('Logger', () => {
                 prefix: '',
                 timestamp: false,
                 callerInfo: false,
+                hideLogLevel: false,
             });
             expect(console.log).toBeCalledWith('[INFO] My message');
         });
         it('should instantiate logger with options', async () => {
-            const log = getLogger({ level: LogLevel.WARNING, prefix: 'MyPrefix', timestamp: true, callerInfo: true });
+            const log = getLogger({level: LogLevel.WARNING, prefix: 'MyPrefix', timestamp: true, callerInfo: true});
             log.info('My message');
             log.warning('My message');
 
@@ -27,6 +28,7 @@ describe('Logger', () => {
                 prefix: 'MyPrefix',
                 timestamp: true,
                 callerInfo: true,
+                hideLogLevel: false,
             });
             expect(console.log).toBeCalledTimes(1);
         });
@@ -37,6 +39,7 @@ describe('Logger', () => {
             process.env.LOG_TIMESTAMP = 'true';
             process.env.LOG_PREFIX = 'MyPrefix';
             process.env.LOG_CALLERINFO = 'true';
+            process.env.LOG_HIDE_LOG_LEVEL = 'true';
             const log = getLogger();
             log.info('My message');
 
@@ -45,6 +48,7 @@ describe('Logger', () => {
                 prefix: 'MyPrefix',
                 timestamp: true,
                 callerInfo: true,
+                hideLogLevel: true,
             });
 
             // Restore process.env
@@ -92,7 +96,7 @@ describe('Logger', () => {
         });
 
         function testLogLevel(level: LogLevel): void {
-            const log = getLogger({ level });
+            const log = getLogger({level});
 
             if (log.isTraceEnabled()) {
                 log.trace('Foo');
@@ -113,9 +117,25 @@ describe('Logger', () => {
     describe('Attachments', () => {
         it('should include attachment', async () => {
             const log = getLogger();
-            log.info('My message', { foo: 'bar' });
+            log.info('My message', {foo: 'bar'});
 
-            expect(console.log).toBeCalledWith('[INFO] My message', "{ foo: 'bar' }");
+            expect(console.log).toBeCalledWith('[INFO] My message', '{ foo: \'bar\' }');
+        });
+    });
+
+    describe('Hide Log Level', () => {
+        it('should hide the log level via construct', async () => {
+            const log = getLogger({hideLogLevel: true});
+            log.info('My message', {foo: 'bar'});
+
+            expect(console.log).toBeCalledWith('My message', '{ foo: \'bar\' }');
+        });
+        it('should hide the log level via runtime settings', async () => {
+            const log = getLogger();
+            log.getSettings().hideLogLevel = true;
+            log.info('My message', {foo: 'bar'});
+
+            expect(console.log).toBeCalledWith('My message', '{ foo: \'bar\' }');
         });
     });
 
@@ -124,18 +144,18 @@ describe('Logger', () => {
             const log = getLogger();
             log.addMask('foo', 'custom');
             log.addMask('bar');
-            log.info('My foobar message', { foo: 'bar' });
+            log.info('My foobar message', {foo: 'bar'});
 
-            expect(console.log).toBeCalledWith('[INFO] My custom*** message', "{ custom: '***' }");
+            expect(console.log).toBeCalledWith('[INFO] My custom*** message', '{ custom: \'***\' }');
         });
 
         it('should add & remove mask', async () => {
             const log = getLogger();
             log.addMask('foo', 'custom');
             log.removeMask('foo');
-            log.info('My foobar message', { foo: 'bar' });
+            log.info('My foobar message', {foo: 'bar'});
 
-            expect(console.log).toBeCalledWith('[INFO] My foobar message', "{ foo: 'bar' }");
+            expect(console.log).toBeCalledWith('[INFO] My foobar message', '{ foo: \'bar\' }');
         });
 
         it('should not mask after clearing the masks', async () => {
@@ -143,9 +163,9 @@ describe('Logger', () => {
             log.addMask('foo', 'custom');
             log.addMask('bar');
             log.clearMasks();
-            log.info('My foobar message', { foo: 'bar' });
+            log.info('My foobar message', {foo: 'bar'});
 
-            expect(console.log).toBeCalledWith('[INFO] My foobar message', "{ foo: 'bar' }");
+            expect(console.log).toBeCalledWith('[INFO] My foobar message', '{ foo: \'bar\' }');
         });
     });
 });
